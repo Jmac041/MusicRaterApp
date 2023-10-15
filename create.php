@@ -4,6 +4,16 @@
     //Connect to database
     include 'config.php';
 
+    //Displays message telling user if they are logged in and providing them a link to log out
+    if (isset($_SESSION['username'])) {
+        echo "You are now logged in as " . $_SESSION['username'] . ". <a href='?logout=1'>Log Out</a><br>";
+    }
+    //Sends user to login page if not logged in
+    else {
+        header('Location: login.php');
+        exit;
+    }
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Get data from the POST request
         $username = $_SESSION['username'];
