@@ -52,12 +52,12 @@
                             // Check if the rating belongs to the logged-in user
                             if (isset($_SESSION['username']) && $row['username'] === $_SESSION['username']) {
                                 // Display links to view, update, and delete for user's own ratings
-                                echo "<a href='view.php?id={$row['id']}'>View</a> ";
+                                echo "<a href='read.php?id={$row['id']}'>View</a> ";
                                 echo "<a href='update.php?id={$row['id']}'>Update</a> ";
                                 echo "<a href='delete.php?id={$row['id']}'>Delete</a>";
                             } else {
                                 // Display a link to view for ratings that don't belong to the user
-                                echo "<a href='view.php?id={$row['id']}'>View</a>";
+                                echo "<a href='read.php?id={$row['id']}'>View</a>";
                             }
                             echo "</td>";
                             echo "<td>" . $row['id'] . "</td>";
