@@ -14,6 +14,17 @@
         exit;
     }
 
+    //If 'logout' is clicked
+    if (isset($_GET['logout'])) {
+        // Unset and destroy the session to log the user out
+        session_unset();
+        session_destroy();
+        
+        // Redirect back to login page
+        header('Location: login.php');
+        exit;
+    }
+
     // Check if the rating ID is provided in the URL
     if (isset($_GET['id'])) {
         $rating_id = $_GET['id'];
