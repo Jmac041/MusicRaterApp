@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Logs in the user after signup
                 $_SESSION['username'] = $username;
 
-                // Takes the user to index.html if they signup successfully
+                // Takes the user to index.html if theysignup successfully
                 header('Location: index.html');
                 exit;
             } else {
