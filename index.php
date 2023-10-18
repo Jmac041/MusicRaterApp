@@ -1,5 +1,7 @@
 <?php
     session_start();
+
+    include "config.php";
     
     //Displays message telling user if they are logged in and providing them a link to log out
     if (isset($_SESSION['username'])) {
