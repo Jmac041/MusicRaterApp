@@ -5,6 +5,11 @@ error_reporting(E_ALL);
 
 session_start();
 
+// Redirect if user is already logged in
+if (isset($_SESSION['username'])) {
+    header('Location: index.php');
+    exit;
+
 // Database connection file
 include 'config.php';
 
@@ -36,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['username'] = $username;
 
                 // Takes the user to index.html if theysignup successfully
-                header('Location: index.html');
+                header('Location: index.php');
                 exit;
             } else {
                 $error = "There was a problem with the signup. Please try again.";
