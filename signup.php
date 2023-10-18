@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 
 session_start();
 
-// If user is already logged in, redirect to index page
+// If user is already logged in they will be redirected to index page when they want to aceess the registration page
 if (isset($_SESSION['username'])) {
     header('Location: index.php');
     exit;
