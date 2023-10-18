@@ -9,6 +9,16 @@ if (!isset($_SESSION['username'])) {
 
 include 'config.php';
 
+// If 'logout' is clicked
+if (isset($_GET['logout'])) {
+    session_unset();
+    session_destroy();
+    
+    // Redirect back to the login page
+    header('Location: login.php');
+    exit;
+}
+
 // Check if the rating ID is provided in the URL
 if (isset($_GET['id'])) {
     $rating_id = $_GET['id'];
@@ -41,6 +51,12 @@ if (isset($_GET['id'])) {
 </head>
 <body>
     <h2>Update Rating</h2>
+    <!-- Display the logged in message at the top -->
+    <?php
+    if (isset($_SESSION['username'])) {
+        echo "You are now logged in as " . $_SESSION['username'] . ". <a href='?logout=1'>Log Out</a><br><br>";
+    }
+    ?>
     <form method="POST" action="update.php?id=<?php echo $rating_id; ?>">
         <label for="artist">Artist:</label>
         <input type="text" name="artist" value="<?php echo $row['artist']; ?>" required><br>
@@ -52,6 +68,7 @@ if (isset($_GET['id'])) {
         <input type="number" name="rating" value="<?php echo $row['rating']; ?>" min="1" max="5" required><br>
 
         <input type="submit" value="Update Rating">
+        <button onclick="location.href='index.php'; return false;">Cancel</button>
     </form>
 </body>
 </html>
@@ -65,4 +82,3 @@ if (isset($_GET['id'])) {
 
 $conn->close();
 ?>
-
