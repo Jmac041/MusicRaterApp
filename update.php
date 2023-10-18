@@ -52,6 +52,7 @@ if (isset($_GET['id'])) {
         <input type="number" name="rating" value="<?php echo $row['rating']; ?>" min="1" max="5" required><br>
 
         <input type="submit" value="Update Rating">
+        <button onclick="location.href='index.php'; return false;">Cancel</button>
     </form>
 </body>
 </html>
