@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['username'] = $username;
 
                 // Takes the user to index.html if theysignup successfully
-                header('Location: index.html');
+                header('Location: index.php');
                 exit;
             } else {
                 $error = "There was a problem with the signup. Please try again.";
