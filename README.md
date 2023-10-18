@@ -10,4 +10,9 @@ When opening the site, users are directed to log in, with a link to sign up if t
 ![Screenshot (123)](https://github.com/Jmac041/MusicRaterApp/assets/144952777/99c3f8ca-cec8-49e9-8d8d-887b04b31bca)
 ![Screenshot (121)](https://github.com/Jmac041/MusicRaterApp/assets/144952777/dcb40e89-98c4-42e2-9156-36d686d867c3)
 
+![Screenshot (naomy)](https://github.com/Jmac041/MusicRaterApp/assets/85355678/944fe2c5-b002-4caf-96be-cbeaad33ee9b)
+![Screenshot (naomy](https://github.com/Jmac041/MusicRaterApp/assets/85355678/1ff21582-c63e-4101-be3b-beb278423041)
+
+
+
 
