@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($user && password_verify($password, $user['password'])) {
         // If user exists and password is correct
         $_SESSION['username'] = $username; // Store username in session
-    header('Location: index.html'); // Redirect to index.html after a successful login
+    header('Location: index.php'); // Redirect to index.php after a  login
         exit;
     } else {
         $error = "Invalid username or password";
