@@ -82,6 +82,7 @@
         <input type="number" name="rating" min="1" max="5" required><br>
     
         <input type="submit" value="Submit Rating">
+        <button onclick="location.href='index.php'; return false;">Cancel</button>
     </form>
         </body>
         </html>
