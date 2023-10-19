@@ -33,23 +33,30 @@
         $rating = $_POST['rating'];
 
         // Check if the user has already rated this song
-        $check_query = "SELECT id FROM ratings_table WHERE username = '$username' AND artist = '$artist' AND song = '$song'";
-        $result = $conn->query($check_query);
+        $check_query = "SELECT id FROM ratings_table WHERE username = ? AND artist = ? AND song = ?";
+        $stmt = $conn->prepare($check_query);
+        $stmt->bind_param("sss", $username, $artist, $song);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
         
         //Preventing user from rating the same song twice
         if ($result->num_rows > 0) {
             echo "You have already rated this song. Please try again.";
         } else {
             // Insert the new rating into the ratings_table
-            $insert_query = "INSERT INTO ratings_table (username, artist, song, rating) VALUES ('$username', '$artist', '$song', $rating)";
+            // Using paramaterization to avoid SQL injection attacks
+            $insert_query = "INSERT INTO ratings_table (username, artist, song, rating) VALUES (?, ?, ?, ?)";
+            $stmt = $conn->prepare($insert_query);
+            $stmt->bind_param("sssi", $username, $artist, $song, $rating);
     
-            if ($conn->query($insert_query) === TRUE) {
+            if ($stmt->execute()) {
                 // Rating successfully added
                 header('Location: index.php');
                 exit;
             } else {
-                //Error message
-                echo "Error: " . $conn->error;
+                // Error message
+                echo "Error: " . $stmt->error;
             }
         }
     }
@@ -75,6 +82,7 @@
         <input type="number" name="rating" min="1" max="5" required><br>
     
         <input type="submit" value="Submit Rating">
+        <button onclick="location.href='index.php'; return false;">Cancel</button>
     </form>
         </body>
         </html>
