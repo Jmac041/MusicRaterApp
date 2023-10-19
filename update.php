@@ -21,16 +21,17 @@ if (isset($_GET['logout'])) {
 
 // Check if the rating ID is provided in the URL
 if (isset($_GET['id'])) {
-    $rating_id = $_GET['id'];
+    $rating_id = intval($_GET['id']);  // Ensure it's an integer
 
     // If update form is submitted
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $artist = $_POST['artist'];
         $song = $_POST['song'];
-        $rating = $_POST['rating'];
+        $rating = intval($_POST['rating']);  // Ensure it's an integer
 
-        $sql = "UPDATE ratings_table SET artist='$artist', song='$song', rating=$rating WHERE id=$rating_id";
-        if ($conn->query($sql) === TRUE) {
+        $stmt = $conn->prepare("UPDATE ratings_table SET artist=?, song=?, rating=? WHERE id=?");
+        $stmt->bind_param("ssii", $artist, $song, $rating, $rating_id);
+        if ($stmt->execute()) {
             header('Location: index.php');
             exit;
         } else {
@@ -38,8 +39,10 @@ if (isset($_GET['id'])) {
         }
     }
 
-    $sql = "SELECT * FROM ratings_table WHERE id = $rating_id";
-    $result = $conn->query($sql);
+    $stmt = $conn->prepare("SELECT * FROM ratings_table WHERE id = ?");
+    $stmt->bind_param("i", $rating_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows == 1) {
         $row = $result->fetch_assoc();
