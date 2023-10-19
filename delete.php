@@ -26,12 +26,16 @@ if (isset($_POST['confirm'])) {
     if ($_POST['confirm'] == "Yes" && isset($_GET['id'])) {
         $rating_id = $_GET['id'];
 
-        $sql = "DELETE FROM ratings_table WHERE id = $rating_id";
-        if ($conn->query($sql) === TRUE) {
+        // Use a prepared statement for the delete query
+        $sql = "DELETE FROM ratings_table WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $rating_id); // "i" indicates an integer
+
+        if ($stmt->execute()) {
             header('Location: index.php');
             exit;
         } else {
-            echo "Error deleting record: " . $conn->error;
+            echo "Error deleting record: " . $stmt->error;
         }
     } else {
         // If "No" is clicked or any other condition, redirect to index.php
