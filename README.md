@@ -1,5 +1,5 @@
 # FaveTune: MusicRaterApp
-Jackson and Naomy's second homework assignment for COMP333: a music rater app called FaveTune. Work Split: 50/50
+Jackson and Naomy's second homework assignment for COMP333: a music rater app called FaveTune. Work Split: 50/50 <br>
 Jackson's Deployment: https://jmcavoy.kesug.com/
 
 ## How it Works
