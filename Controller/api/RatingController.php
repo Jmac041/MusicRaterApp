@@ -82,12 +82,11 @@ class RatingController extends BaseController
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         if (strtoupper($requestMethod) == 'POST') {
             $postData = json_decode(file_get_contents('php://input'), true);
-
+            //Instantiate a RatingModel
+            $ratingModel = new RatingModel();
             try {
-                // You will need to implement the logic to create a new rating here
-                // Instantiate a RatingModel and call the createRating method
-                $ratingModel = new RatingModel();
-                $ratingModel->createRating($postData['username'], $postData['song'], $postData['rating']);
+                // Call the createRating method
+                $ratingModel->createRating($postData);
                 $responseData = json_encode(array('message' => 'Rating created successfully'));
             } catch (Exception $e) {
                 $strErrorDesc = $e->getMessage();
@@ -116,12 +115,10 @@ class RatingController extends BaseController
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         if (strtoupper($requestMethod) == 'PUT') {
             $postData = json_decode(file_get_contents('php://input'), true);
-
+            $ratingModel = new RatingModel();
             try {
-                // You will need to implement the logic to update a rating here
                 // Instantiate a RatingModel and call the updateRating method
-                $ratingModel = new RatingModel();
-                $ratingModel->updateRating($postData['username'], $postData['song'], $postData['rating']);
+                $ratingModel->updateRating($postData);
                 $responseData = json_encode(array('message' => 'Rating updated successfully'));
             } catch (Exception $e) {
                 $strErrorDesc = $e->getMessage();
@@ -150,12 +147,10 @@ class RatingController extends BaseController
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         if (strtoupper($requestMethod) == 'DELETE') {
             $postData = json_decode(file_get_contents('php://input'), true);
-
+            $ratingModel = new RatingModel();
             try {
-                // You will need to implement the logic to delete a rating here
                 // Instantiate a RatingModel and call the deleteRating method
-                $ratingModel = new RatingModel();
-                $ratingModel->deleteRating($postData['username'], $postData['song']);
+                $ratingModel->deleteRating($postData);
                 $responseData = json_encode(array('message' => 'Rating deleted successfully'));
             } catch (Exception $e) {
                 $strErrorDesc = $e->getMessage();
