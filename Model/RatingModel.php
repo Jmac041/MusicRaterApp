@@ -23,11 +23,11 @@ class RatingModel extends Database
         return null;
     }
 
-    public function createRating($username, $song, $rating)
+    public function createRating($username, $artist, $song, $rating)
     {
-        // Need to implement the logic to create a new rating
-        $sql = "INSERT INTO ratings_table (username, song, rating) VALUES (?, ?, ?)";
-        $this->insert($sql, ["sss", $username, $song, $rating]);
+        // Implement the logic to create a new rating
+        $sql = "INSERT INTO ratings_table (username, artist, song, rating) VALUES (?, ?, ?, ?)";
+        $this->insert($sql, ["sssi", $username, $artist, $song, $rating]);
     }
 
     public function updateRating($username, $song, $rating)
