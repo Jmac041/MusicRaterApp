@@ -87,7 +87,7 @@ class RatingController extends BaseController
                 // You will need to implement the logic to create a new rating here
                 // Instantiate a RatingModel and call the createRating method
                 $ratingModel = new RatingModel();
-                $ratingModel->createRating($postData['username'], $postData['song'], $postData['rating']);
+                $ratingModel->createRating($postData['username'], $postData['artist'], $postData['song'], $postData['rating']);
                 $responseData = json_encode(array('message' => 'Rating created successfully'));
             } catch (Exception $e) {
                 $strErrorDesc = $e->getMessage();

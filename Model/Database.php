@@ -10,8 +10,8 @@ class Database
             // Replace the placeholders with your actual database credentials
             $this->connection = new mysqli('localhost', 'root', '', 'music_db');
 
-            if (mysqli_connect_errno()) {
-                throw new Exception("Could not connect to the database.");
+            if ($this->connection->connect_error) {
+                throw new Exception("Database connection failed: " . $this->connection->connect_error);
             }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -22,13 +22,54 @@ class Database
     {
         try {
             $stmt = $this->executeStatement($query, $params);
-            $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-            $stmt->close();
-            return $result;
+            if ($stmt) {
+                $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+                $stmt->close();
+                return $result;
+            } else {
+                throw new Exception("Query execution failed: " . $query);
+            }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
-        return false;
+    }
+
+    public function insert($query = "", $params = [])
+    {
+        try {
+            $stmt = $this->executeStatement($query, $params);
+            if ($stmt) {
+                return $stmt->insert_id;
+            } else {
+                throw new Exception("Insertion failed: " . $query);
+            }
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    public function update($query = "", $params = [])
+    {
+        try {
+            $stmt = $this->executeStatement($query, $params);
+            if (!$stmt) {
+                throw new Exception("Update failed: " . $query);
+            }
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    public function delete($query = "", $params = [])
+    {
+        try {
+            $stmt = $this->executeStatement($query, $params);
+            if (!$stmt) {
+                throw new Exception("Deletion failed: " . $query);
+            }
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 
     private function executeStatement($query = "", $params = [])
@@ -39,12 +80,19 @@ class Database
                 throw new Exception("Unable to create a prepared statement: " . $query);
             }
             if ($params) {
-                $stmt->bind_param($params[0], $params[1]);
+                $stmt->bind_param($params[0], ...array_slice($params, 1));
             }
             $stmt->execute();
             return $stmt;
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
+        }
+    }
+
+    public function closeConnection()
+    {
+        if ($this->connection !== null) {
+            $this->connection->close();
         }
     }
 }
