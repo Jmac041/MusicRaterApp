@@ -4,7 +4,7 @@ class RatingModel extends Database
 {
     public function getRatings()
     {
-        // Need to implement the logic to retrieve all ratings
+        // Retrieve all ratings
         $sql = "SELECT * FROM ratings_table";
         $ratings = $this->select($sql);
         return $ratings;
@@ -12,7 +12,7 @@ class RatingModel extends Database
 
     public function getRating($ratingId)
     {
-        // Need to implement the logic to retrieve a specific rating by its ID
+        // Retrieve a specific rating by its ID
         $sql = "SELECT * FROM ratings_table WHERE id = ?";
         $rating = $this->select($sql, ["i", $ratingId]);
 
@@ -23,25 +23,55 @@ class RatingModel extends Database
         return null;
     }
 
-    public function createRating($username, $song, $rating)
+    public function createRating($postData)
     {
-        // Need to implement the logic to create a new rating
-        $sql = "INSERT INTO ratings_table (username, song, rating) VALUES (?, ?, ?)";
-        $this->insert($sql, ["sss", $username, $song, $rating]);
+        // Create a new rating
+        $sql = "INSERT INTO ratings_table (username, artist, song, rating) VALUES (?, ?, ?, ?)";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param('sssi', $postData['username'], $postData['artist'], $postData['song'], $postData['rating']);
+
+        if ($stmt->execute()) {
+            // Rating was successfully created
+            $stmt->close();
+        } else {
+            // Handle the case where the user creation failed
+            $stmt->close();
+            throw new Exception("Rating creation failed");
+        }
     }
 
-    public function updateRating($username, $song, $rating)
+    public function updateRating($postData)
     {
-        // Need to implement the logic to update an existing rating
-        $sql = "UPDATE ratings_table SET rating = ? WHERE username = ? AND song = ?";
-        $this->update($sql, ["sss", $rating, $username, $song]);
+        // Update an existing rating
+        $sql = "UPDATE ratings_table SET artist=?, song=?, rating=? WHERE id=?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("ssii", $postData['artist'], $postData['song'], $postData['rating'], $postData['id']);
+
+        if ($stmt->execute()) {
+            // Rating was successfully updated
+            $stmt->close();
+        } else {
+            // Handle the case where the rating update failed
+            $stmt->close();
+            throw new Exception("Rating update failed");
+        }
     }
 
-    public function deleteRating($username, $song)
+    public function deleteRating($postData)
     {
-        // Need to implement the logic to delete a rating
-        $sql = "DELETE FROM ratings_table WHERE username = ? AND song = ?";
-        $this->delete($sql, ["ss", $username, $song]);
+        // Delete an existing rating
+        $sql = "DELETE FROM ratings_table WHERE id = ?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("i", $postData['id']);
+    
+        if ($stmt->execute()) {
+            // Rating deleted successfully
+            $stmt->close();
+        } else {
+            // Handle the case where the rating deletion failed
+            $stmt->close();
+            throw new Exception("Rating deletion failed");
+        }
     }
 }
 ?>
