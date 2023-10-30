@@ -40,19 +40,40 @@ class UserController extends BaseController
     }
     public function createAction()
     {
-        // Get the request method
+        $strErrorDesc = '';
         $requestMethod = $_SERVER["REQUEST_METHOD"];
-
-        // Check if the request method is POST
+    
         if (strtoupper($requestMethod) == 'POST') {
-            // Retrieve user registration data from the request body
             $postData = json_decode(file_get_contents('php://input'), true);
-            // Instantiate a UserModel to create a user
             $userModel = new UserModel();
-            $userModel->createUser($postData); 
+    
+            // Attempt to create the user
+            try {
+                $userModel->createUser($postData);
+    
+                // User was successfully created
+                $responseData = json_encode(array('message' => 'User created successfully'));
+            } catch (Exception $e) {
+                // Handle the case where user creation failed
+                $strErrorDesc = $e->getMessage();
+                $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+            }
+        } else {
+            $strErrorDesc = 'Method not supported';
+            $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
+        }
+    
+        if (!$strErrorDesc) {
+            $this->sendOutput(
+                $responseData,
+                array('Content-Type: application/json', 'HTTP/1.1 201 Created')
+            );
+        } else {
+            $this->sendOutput(json_encode(array('error' => $strErrorDesc)),
+                array('Content-Type: application/json', $strErrorHeader)
+            );
         }
     }
 
     // Add more functions as necessary
 }
-
