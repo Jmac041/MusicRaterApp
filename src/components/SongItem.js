@@ -12,7 +12,7 @@ function SongItem({ song, onDeleteSong, renderStars }) {
                 <FontAwesomeIcon 
                     icon={faEdit} 
                     className="icon-button edit-icon" 
-                    // Add an onClick here if you want an edit functionality later
+                    // Add an onClick here if you want an edit functionality 
                 />
                 <FontAwesomeIcon 
                     icon={faTrash} 
