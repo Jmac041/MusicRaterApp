@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 
 function CreateRatingForm({ onAddSong }) {
     const [songName, setSongName] = useState('');
+    const [artistName, setArtistName] = useState('');
     const [rating, setRating] = useState(0);
 
     const handleSubmit = (e) => {
@@ -10,14 +10,18 @@ function CreateRatingForm({ onAddSong }) {
 
         const songData = {
             name: songName,
+            artist: artistName,
             rating: rating
         };
 
-        // Calling onAddSong which is passed from App.js
         onAddSong(songData);
 
-        // Reset the form
+        resetForm();
+    };
+
+    const resetForm = () => {
         setSongName('');
+        setArtistName('');
         setRating(0);
     };
 
@@ -30,6 +34,12 @@ function CreateRatingForm({ onAddSong }) {
                 onChange={(e) => setSongName(e.target.value)}
             />
             <input 
+                type="text" 
+                placeholder="Artist Name"
+                value={artistName}
+                onChange={(e) => setArtistName(e.target.value)}
+            />
+            <input 
                 type="number" 
                 min="1" 
                 max="5" 
@@ -38,6 +48,7 @@ function CreateRatingForm({ onAddSong }) {
                 onChange={(e) => setRating(e.target.value)}
             />
             <button type="submit">Add Song</button>
+            <button type="button" onClick={resetForm}>Cancel</button> {/* Reset button */}
         </form>
     );
 }
