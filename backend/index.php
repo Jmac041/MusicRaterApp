@@ -1,6 +1,16 @@
 <?php
-    session_start();
+    header("Access-Control-Allow-Origin:*");
+    header("Access-Control-Allow-Headers:*");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+    header("Access-Control-Allow-Credentials: true");
 
+        // Handle preflight requests (OPTIONS)
+    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+        http_response_code(204); // 204 No Content for preflight requests
+        exit;
+    }
+
+    session_start();
     include "config.php";
 
     //Entry point for REST API
@@ -9,7 +19,6 @@
     // CORS Headers
     header('Access-Control-Allow-Origin:*');
     $uri = explode( '/', $uri );
-
     // UserController Actions
     if ($uri[2] == 'user') {
         require "Controller/Api/UserController.php";
@@ -25,5 +34,5 @@
         $strMethodName = $uri[3] . 'Action';
         $objRatingController->{$strMethodName}();
     }
-    
+
 ?>
