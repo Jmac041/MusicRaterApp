@@ -1,9 +1,4 @@
 <?php
-    header("Access-Control-Allow-Origin:*");
-    header("Access-Control-Allow-Headers:*");
-    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-    header("Access-Control-Allow-Credentials: true");
-    
 class UserController extends BaseController
 {
     /** 
@@ -80,58 +75,5 @@ class UserController extends BaseController
         }
     }
 
-    public function loginAction()
-    {
-        $strErrorDesc = '';
-        $requestMethod = $_SERVER["REQUEST_METHOD"];
-
-        if (strtoupper($requestMethod) == 'POST') {
-            $postData = json_decode(file_get_contents('php://input'), true);
-            $userModel = new UserModel();
-                try {
-                    // Instantiate a UserModel and call the login method to authenticate the user
-                    $user = $userModel->loginUser($postData);
-
-                    if ($user) {
-                        // Authentication successful
-                        $_SESSION['username'] = $user['username']; // Store user's username in the session
-
-                        $responseData = [
-                            'success' => true,
-                            'message' => 'Login successful',
-                            'username' => $_SESSION['username'],
-                        ];
-                        
-                        // Set the HTTP response status to 200 (OK)
-                        http_response_code(200);
-                        
-                        // Convert the response to JSON and send it
-                        echo json_encode($responseData);
-                    } else {
-                        $strErrorDesc = 'Invalid username or password';
-                        $strErrorHeader = 'HTTP/1.1 401 Unauthorized';
-                    }
-                } catch (Exception $e) {
-                    $strErrorDesc = $e->getMessage() . ' Something went wrong! Please contact support.';
-                    $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
-                }
-        } else {
-            $strErrorDesc = 'Method not supported';
-            $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
-        }
-
-        if (!$strErrorDesc) {
-            $this->sendOutput(
-                $responseData,
-                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
-            );
-        } else {
-            $this->sendOutput(json_encode(array('error' => $strErrorDesc)),
-                array('Content-Type: application/json', $strErrorHeader)
-            );
-        }
-    }
-
     // Add more functions as necessary
 }
-
