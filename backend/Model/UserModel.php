@@ -1,9 +1,4 @@
 <?php
-    header("Access-Control-Allow-Origin:*");
-    header("Access-Control-Allow-Headers:*");
-    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-    header("Access-Control-Allow-Credentials: true");
-    
 require "Model/Database.php";
 class UserModel extends Database
 {
@@ -34,35 +29,5 @@ class UserModel extends Database
             throw new Exception("User creation failed");
         }
     }
-
-    public function loginUser($postData)
-    {
-        // Check if both username and password are provided
-        if (empty($postData['username']) || empty($postData['password'])) {
-            $strErrorDesc = 'Username and password are required';
-            $strErrorHeader = 'HTTP/1.1 400 Bad Request';
-            return null;
-        }
-    
-        // SQL query to retrieve a user with the given username
-        $sql = "SELECT * FROM users_table WHERE username = ?";
-        $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param('s', $postData['username']);
-        $stmt->execute();
-        $result = $stmt->get_result();
-    
-        // Check if a user with the given username was found in the database
-        if ($result->num_rows > 0) {
-            $user = $result->fetch_assoc();
-    
-            // Verify the password against the hashed password from the database
-            if (password_verify($postData['password'], $user['password'])) {
-                return $user;
-            }
-        }
-    
-        return null; // User not found or invalid password
-    }
-    
 }
 ?>
