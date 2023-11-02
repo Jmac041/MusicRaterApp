@@ -11,7 +11,7 @@ class Database
     public function __construct()
     {
         try {
-            // Replace the placeholders with your actual database credentials
+            //Database connection
             $this->connection = new mysqli('localhost', 'root', '', 'music_db');
 
             if ($this->connection->connect_error) {
