@@ -77,5 +77,18 @@ class RatingModel extends Database
             throw new Exception("Rating deletion failed");
         }
     }
+
+    public function ratingExists($username, $song, $artist)
+    {
+        $sql = "SELECT COUNT(*) FROM ratings_table WHERE username = ? AND song = ? AND artist = ?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param('sss', $username, $song, $artist);
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        $stmt->close();
+
+        return $count > 0; // If count is greater than 0, a matching rating exists.
+    }
 }
 ?>

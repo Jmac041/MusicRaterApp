@@ -33,12 +33,12 @@ class UserController extends BaseController
         }
         // send output 
         if (!$strErrorDesc) {
-            $this->sendOutput(
+            echo $this->sendOutput(
                 $responseData,
                 array('Content-Type: application/json', 'HTTP/1.1 200 OK')
             );
         } else {
-            $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
+            echo $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
                 array('Content-Type: application/json', $strErrorHeader)
             );
         }
@@ -60,8 +60,8 @@ class UserController extends BaseController
                 $responseData = json_encode(array('message' => 'User created successfully'));
             } catch (Exception $e) {
                 // Handle the case where user creation failed
-                $strErrorDesc = $e->getMessage();
-                $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+                $strErrorDesc = $e->getMessage().'Username already exists';
+                $strErrorHeader = 'HTTP/1.1 401 Unauthorized';
             }
         } else {
             $strErrorDesc = 'Method not supported';
@@ -74,7 +74,7 @@ class UserController extends BaseController
                 array('Content-Type: application/json', 'HTTP/1.1 201 Created')
             );
         } else {
-            $this->sendOutput(json_encode(array('error' => $strErrorDesc)),
+            echo $this->sendOutput(json_encode(array('error' => $strErrorDesc)),
                 array('Content-Type: application/json', $strErrorHeader)
             );
         }
@@ -126,7 +126,7 @@ class UserController extends BaseController
                 array('Content-Type: application/json', 'HTTP/1.1 200 OK')
             );
         } else {
-            $this->sendOutput(json_encode(array('error' => $strErrorDesc)),
+            echo $this->sendOutput(json_encode(array('error' => $strErrorDesc)),
                 array('Content-Type: application/json', $strErrorHeader)
             );
         }
