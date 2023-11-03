@@ -4,6 +4,9 @@ import './App.css';
 import SongList from './components/SongList.js';
 import CreateRatingForm from './components/CreateRatingForm.js';
 import Login from './components/Login';
+// Import the notification components
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [songs, setSongs] = useState([]);
@@ -21,9 +24,11 @@ function App() {
           setSongs(response.data);
         })
         .catch(error => {
-          console.error("Error fetching songs:", error);
-        });
-    
+          toast.error("Error fetching songs:", {
+            position: 'top-right',
+            autoClose: 3000,
+          })
+        })
   }, []);
 
   const logoutFunction = () => {
@@ -31,12 +36,15 @@ function App() {
     localStorage.removeItem('username');
     // Clear the username in the component state
     setUsername('');
+    toast.success('Logged out successfully', {
+      position: 'top-right', // Adjust the position as needed
+      autoClose: 3000, // Notification will close after 3 seconds
+    })
   };
-
-
   
   return (
     <div className="App">
+      <ToastContainer /> {/* Include the NotificationContainer */}
       <header className="App-header">
         <h1>FaveTune: Music Rater App</h1>
         {username ? (

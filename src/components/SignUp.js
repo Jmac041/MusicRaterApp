@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 function SignUp({ onSignUp }) {
   const [username, setUsername] = useState('');
@@ -23,7 +24,7 @@ function SignUp({ onSignUp }) {
       });
 
       if (response.data.success) {
-        setSuccessMessage('Successfully created an account! Please log in.');
+        NotificationManager.success('Signup successful! Please log in', 'Success', 3000);
         setUsername(''); // Clear the username input
         setPassword(''); // Clear the password input
         setConfirmPassword(''); // Clear the confirm password input
@@ -77,6 +78,7 @@ function SignUp({ onSignUp }) {
         {error && <p style={{ color: 'red' }}>{error}</p>}
         {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
       </form>
+      <NotificationContainer /> {/* Include the NotificationContainer */}
     </div>
   );
 }
