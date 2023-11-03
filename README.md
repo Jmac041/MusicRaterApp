@@ -1,19 +1,61 @@
-# FaveTune: MusicRaterApp
-Jackson and Naomy's second homework assignment for COMP333: a music rater app called FaveTune. Work Split: 50/50 <br>
-Jackson's Deployment: https://jmcavoy.kesug.com/
-Naomy's Deployment: https://naomy01.42web.io/
-## How it Works
-When opening the site, users are directed to log in, with a link to sign up if they don't have an account. If they create a new account, their username and password are stored in a database (with the password hashed) and they are directed to login. After logging in, users are directed to the index page displaying all of the song ratings in the database. There, they may create a new song rating, updating one of their existing song ratings, delete one of their existing song ratings, or view either one of their ratings or another person's rating. Each one of these actions directs them to a different page, and at each one users have the option to return back to the ratings or log out. When creating a new song, users are prompted to add the artist name, song name, and their rating from 1 to 5 (or they may cancel the rating, redirecting them to the index page). The rating is stored in the database along with their username attached to it. View, update, and delete alter ratings in the database. 
+# FaveTune
+Jackson and Naomy's third homework assignment for COMP333: a music rater app called FaveTune 
 
-## Setting Up Your Development Environment
+# How it works
+This is a music rating app that allows user to create,read, update and delete song ratings. It was created using JavaScript/ React frontend  and a PHP/MYSQL backend which communicate via REST API
 
-![Screenshot (120)](https://github.com/Jmac041/MusicRaterApp/assets/144952777/096b85ec-eca3-4332-961f-1986202efa60)
-![Screenshot (123)](https://github.com/Jmac041/MusicRaterApp/assets/144952777/99c3f8ca-cec8-49e9-8d8d-887b04b31bca)
-![Screenshot (121)](https://github.com/Jmac041/MusicRaterApp/assets/144952777/dcb40e89-98c4-42e2-9156-36d686d867c3)
+# Development
 
-![Screenshot (naomy)](https://github.com/Jmac041/MusicRaterApp/assets/85355678/944fe2c5-b002-4caf-96be-cbeaad33ee9b)
-![Screenshot (naomy](https://github.com/Jmac041/MusicRaterApp/assets/85355678/1ff21582-c63e-4101-be3b-beb278423041)
+### Clone the repository below: 
+https://github.com/Jmac041/MusicRaterApp
 
+### Set up PHP/MYSQL Backend:
+
+- Install XAMPP and start the MySQL and Apache servers
+- Create the database and tables using the provided SQL queries.
+
+### Set up Frontend:
+- Navigate to the frontend directory on your terminal.
+-  To install dependencies, run :
+### `npm install`
+- Next, start the development server by running:
+### `npm start`
+## Accessing the application:
+
+The React frontend will be available at: http://localhost:3000 <br>
+
+The PHP backend API will be accessible via the Apache server (usually on http://localhost or http://localhost:80, depending on your XAMPP settings).
+
+## MVC architecturer and REST API
+
+### Backend structure:
+Our application follows the MVC (Model-View-Controller)  as described below:<br>
+- **Controller**-Handles routing commands to the models
+    * **BaseController.php**
+    * **RatingController.php**
+    * **UserController.php**
+- **Model**- Manages data and business logic.The model interacts with the database to retrieve, insert, update, or delete data.
+    * **Database.php**
+    * **RatingModel.php**
+    * **UserModel.php**
+- **Inc**-holds essential initialization and configuration files
+    * **bootstrap.php**
+    * **config.php**
+- **Index.php**-primary entry point for REST API.
+
+### Frontend structure:
+- **Components:**-houses individiual User Interface elements and functionalities as listed below:
+    * **CreateRatingForm.js**
+    * **login.js**
+    * **Signup.js**
+    * **SongItem.js**
+    * **SongList.js**
+- **App.js**-It defines the main structure and logic of the FaveTune Music Rater App. Handles user login, song ratings and listings.
+- **Index.js**-Imports App.js
+- **App.css**-styling app.js
+        
+
+ 
 
 
 
