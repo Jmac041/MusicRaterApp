@@ -17,7 +17,7 @@ function SongList({ songs, username, onDeleteSong, onUpdateSong}) {
   }
 
   const handleDeleteSong = (songId) => {
-    // Move the axios request to delete a song here
+    // Axios request to delete a song
     axios
       .delete('http://localhost:8080/index.php/rating/delete', { data: { id: songId } })
       .then(response => {
