@@ -1,5 +1,7 @@
 # FaveTune
-Third homework assignment for COMP333: a music rater app called FaveTune developed by Jackson McAvoy and Naomy Chepngeno
+Third homework assignment for COMP333: a music rater app called FaveTune developed by Jackson McAvoy and Naomy Chepngeno. <br>
+Worksplit: 50/50 (we worked on a lot of code together, so the difference in commits does not reflect the actual work split) <br>
+DISCLAIMER: ChatGPT (OpenAI, 2023) was used for debugging for Login.js, SongItem.js, and SongList.js.
 
 
 # How it works
