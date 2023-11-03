@@ -57,7 +57,10 @@ class UserController extends BaseController
                 $userModel->createUser($postData);
     
                 // User was successfully created
-                $responseData = json_encode(array('message' => 'User created successfully'));
+                $responseData = [
+                    'success' => true,
+                    'message' => 'User Created Successfully',
+                ];
             } catch (Exception $e) {
                 // Handle the case where user creation failed
                 $strErrorDesc = $e->getMessage().'Username already exists';

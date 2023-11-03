@@ -34,28 +34,7 @@ function App() {
   };
 
 
-  const deleteSong = (songId) => {
-    axios.delete(`http://localhost:8080/index.php/rating/delete?id=${songId}`)
-      .then(response => {
-        setSongs(prevSongs => prevSongs.filter(song => song.id !== songId));
-      })
-      .catch(error => {
-        console.error("Error deleting song:", error);
-      });
-  };
-
-  const createRating = (songData) => {
-    axios.post('http://localhost:8080/index.php/rating/create', songData)
-      .then(response => {
-        // Handle success
-        setSongs(prevSongs => [...prevSongs, response.data]); // Create a new array
-      })
-      .catch(error => {
-        // Handle errors
-        console.error("Error creating rating:", error);
-      });
-  };
-
+  
   return (
     <div className="App">
       <header className="App-header">
@@ -63,16 +42,32 @@ function App() {
         {username ? (
           <div className="user-info">
             <span>Logged in as: {username}</span>
-            <button onClick={logoutFunction} className="exit-button">Exit</button>
+            <button onClick={logoutFunction} className="exit-button">
+              Exit
+            </button>
           </div>
         ) : (
           <Login onLogin={handleLogin} />
         )}
         {username && (
-          <CreateRatingForm onCreateRating={createRating} session_username={username} />
+          <CreateRatingForm
+            // Pass onCreateRating as a callback to handle rating creation
+            onCreateRating={(newRating) => {
+              setSongs(prevSongs => [...prevSongs, newRating]);
+            }}
+            session_username={username}
+          />
         )}
         <div>
-          <SongList songs={songs} username={username} onDeleteSong={deleteSong} />
+          <SongList
+            songs={songs}
+            username={username}
+            // Pass onDeleteSong as a callback to handle song deletion
+            onDeleteSong={(songId) => {
+              setSongs(prevSongs => prevSongs.filter(song => song.id !== songId));
+            }}
+
+          />
         </div>
       </header>
     </div>

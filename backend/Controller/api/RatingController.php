@@ -100,7 +100,15 @@ class RatingController extends BaseController
                 try {
                     // Call the createRating method
                     $ratingModel->createRating($postData);
-                    $responseData = json_encode(array('message' => 'Rating created successfully'));
+                    $responseData = [
+                        'success' => true,
+                        'message' => 'Rating Created Successfully',
+                        'id' => $postData['id'],
+                        'username' => $postData['username'],
+                        'artist' => $postData['artist'],
+                        'song' => $postData['song'],
+                        'rating' => $postData['rating'],
+                    ];
                 } catch (Exception $e) {
                     $strErrorDesc = $e->getMessage();
                     $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
@@ -133,7 +141,10 @@ class RatingController extends BaseController
             try {
                 // Instantiate a RatingModel and call the updateRating method
                 $ratingModel->updateRating($postData);
-                $responseData = json_encode(array('message' => 'Rating updated successfully'));
+                $responseData = [
+                    'success' => true,
+                    'message' => 'Update successful',
+                ];
             } catch (Exception $e) {
                 $strErrorDesc = $e->getMessage();
                 $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
@@ -145,11 +156,11 @@ class RatingController extends BaseController
 
         if (!$strErrorDesc) {
             $this->sendOutput(
-                $responseData,
+                $responseData, 
                 array('Content-Type: application/json', 'HTTP/1.1 200 OK')
             );
         } else {
-            $this->sendOutput(json_encode(array('error' => $strErrorDesc)),
+            echo $this->sendOutput(json_encode(array('error' => $strErrorDesc)),
                 array('Content-Type: application/json', $strErrorHeader)
             );
         }
@@ -165,7 +176,10 @@ class RatingController extends BaseController
             try {
                 // Instantiate a RatingModel and call the deleteRating method
                 $ratingModel->deleteRating($postData);
-                $responseData = json_encode(array('message' => 'Rating deleted successfully'));
+                $responseData = [
+                    'success' => true,
+                    'message' => 'Rating Deleted Successfully',
+                ]; 
             } catch (Exception $e) {
                 $strErrorDesc = $e->getMessage();
                 $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
@@ -176,12 +190,12 @@ class RatingController extends BaseController
         }
 
         if (!$strErrorDesc) {
-            $this->sendOutput(
+            echo $this->sendOutput(
                 $responseData,
                 array('Content-Type: application/json', 'HTTP/1.1 204 No Content')
             );
         } else {
-            $this->sendOutput(json_encode(array('error' => $strErrorDesc)),
+            echo $this->sendOutput(json_encode(array('error' => $strErrorDesc)),
                 array('Content-Type: application/json', $strErrorHeader)
             );
         }

@@ -1,5 +1,5 @@
-// CreateRatingForm.js
 import React, { useState } from 'react';
+import axios from 'axios';
 
 function CreateRatingForm({ onCreateRating, session_username }) {
   const [songName, setSongName] = useState('');
@@ -17,22 +17,34 @@ function CreateRatingForm({ onCreateRating, session_username }) {
       rating: rating,
     };
 
-    // Call the onCreateRating function to create a new rating
-    onCreateRating(songData);
-    resetForm();
+    // Move the axios request to create a rating here
+    axios
+      .post('http://localhost:8080/index.php/rating/create', songData)
+      .then(response => {
+        onCreateRating(response.data); // Call the onCreateRating callback passed from App.js
+        resetForm();
+      })
+      .catch(error => {
+        if (error.response && error.response.status === 400) {
+          setErrorMessage('You have already rated this song.');
+        } else {
+          console.error("Error creating rating:", error);
+        }
+      });
+
   }
 
   const resetForm = () => {
     setSongName('');
     setArtistName('');
     setRating(0);
-    setErrorMessage(''); // Clear the error message
+    setErrorMessage('');
   };
 
   return (
     <div>
       <h1>Song Rater</h1>
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} {/* Display error message */}
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
