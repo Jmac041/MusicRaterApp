@@ -60,6 +60,7 @@ class UserController extends BaseController
                 $responseData = [
                     'success' => true,
                     'message' => 'User Created Successfully',
+                    'username' => $postData['username'],
                 ];
             } catch (Exception $e) {
                 // Handle the case where user creation failed
@@ -73,7 +74,7 @@ class UserController extends BaseController
     
         if (!$strErrorDesc) {
             $this->sendOutput(
-                $responseData,
+                json_encode($responseData),
                 array('Content-Type: application/json', 'HTTP/1.1 201 Created')
             );
         } else {
