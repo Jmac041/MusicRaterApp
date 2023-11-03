@@ -4,7 +4,7 @@ Third homework assignment for COMP333: a music rater app called FaveTune develop
 
 # How it works
 This is a music rating app that allows user to create,read, update and delete song ratings. It was created using JavaScript/ React frontend  and a PHP/MYSQL backend which communicate via REST API. <br>
-The application first asks the user to either create an account or login with their username and password. After loggin in the user is given an option to create a song rating which will be displayed in a list. The list had edit and delete options that allow the user to either delete or edit the song ratings they submitted.
+The application first asks the user to either create an account or login with their username and password. After loggin in the user is given an option to create a song rating which will be displayed in a list. The list has edit and delete options that allow the user to either delete or edit the song ratings they submitted.
 
 # Development
 
@@ -118,9 +118,35 @@ For manual testing, you can use tools like [Postman](https://www.postman.com/)  
 - **App.js**-It defines the main structure and logic of the FaveTune Music Rater App. Handles user login, song ratings and listings.
 - **Index.js**-Imports App.js
 - **App.css**-styling app.js
+
+## Extra App feature:
+
+For our extra feature, we decided to do  **React notifications** .The notification system we set up  provides immediate feedback for user interactions using `react-toastify` and `react-notifications`.<br>
+
+
+### How it works:
+The notification system is integrated throughout the application. For example, when a user performs actions such as logging in, adding a rating, or encountering an error, the application will trigger a notification
+
+To see the notifications, the user needs toperform any action within the app that triggers a notification such as creating an account, logging in, adding a song rating.Once the action is performed, a toast notification will appear in response to the event
+
+#### Setup
+To set up notifications in the app, we installed the folowing packages:
+- [`react-toastify`](https://fkhadra.github.io/react-toastify/): Used for delivering toast notifications.
+- [`react-notifications`](https://www.npmjs.com/package/react-notifications): Used for displaying alert notifications.
+
+
+```bash
+npm install react-toastify react-notifications
+
+
+
+
         
 
  
+
+
+
 
 
 
