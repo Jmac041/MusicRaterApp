@@ -101,9 +101,8 @@ class RatingController extends BaseController
                     // Call the createRating method
                     $ratingModel->createRating($postData);
                     $responseData = [
-                        'success' => true,
+                        'success' => true, // Set success to true
                         'message' => 'Rating Created Successfully',
-                        'id' => $postData['id'],
                         'username' => $postData['username'],
                         'artist' => $postData['artist'],
                         'song' => $postData['song'],
@@ -121,16 +120,17 @@ class RatingController extends BaseController
     
         if (!$strErrorDesc) {
             echo $this->sendOutput(
-                $responseData,
+                json_encode($responseData),
                 array('Content-Type: application/json', 'HTTP/1.1 201 Created')
             );
         } else {
-            echo $this->sendOutput(json_encode(array('error' => $strErrorDesc)),
+            echo $this->sendOutput(
+                json_encode(array('success' => false, 'error' => $strErrorDesc)), // Set success to false
                 array('Content-Type: application/json', $strErrorHeader)
             );
         }
     }
-
+    
     public function updateAction()
     {
         $strErrorDesc = '';
@@ -142,8 +142,11 @@ class RatingController extends BaseController
                 // Instantiate a RatingModel and call the updateRating method
                 $ratingModel->updateRating($postData);
                 $responseData = [
-                    'success' => true,
+                    'success' => true, // Set success to true
                     'message' => 'Update successful',
+                    'artist' => $postData['artist'],
+                    'song' => $postData['song'],
+                    'rating' => $postData['rating'],
                 ];
             } catch (Exception $e) {
                 $strErrorDesc = $e->getMessage();
@@ -153,18 +156,20 @@ class RatingController extends BaseController
             $strErrorDesc = 'Method not supported';
             $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
         }
-
+    
         if (!$strErrorDesc) {
-            $this->sendOutput(
-                $responseData, 
+            echo $this->sendOutput(
+                json_encode($responseData), 
                 array('Content-Type: application/json', 'HTTP/1.1 200 OK')
             );
         } else {
-            echo $this->sendOutput(json_encode(array('error' => $strErrorDesc)),
+            echo $this->sendOutput(
+                json_encode(array('success' => false, 'error' => $strErrorDesc)), // Set success to false
                 array('Content-Type: application/json', $strErrorHeader)
             );
         }
     }
+    
 
     public function deleteAction()
     {

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function CreateRatingForm({ onCreateRating, session_username }) {
   const [songName, setSongName] = useState('');
@@ -9,30 +11,52 @@ function CreateRatingForm({ onCreateRating, session_username }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     const songData = {
       username: session_username,
       artist: artistName,
       song: songName,
       rating: rating,
     };
-
+  
     // Move the axios request to create a rating here
     axios
       .post('http://localhost:8080/index.php/rating/create', songData)
       .then(response => {
         onCreateRating(response.data); // Call the onCreateRating callback passed from App.js
         resetForm();
+  
+        // Display a success notification
+        if (response.data.success) {
+          toast.success('Song added successfully', {
+            position: 'top-right',
+            autoClose: 3000,
+          });
+        } else {
+            // Error notification
+            toast.error('You have already rated this song', {
+              position: 'top-right',
+              autoClose: 3000,
+            });
+        }
       })
       .catch(error => {
         if (error.response && error.response.status === 400) {
-          setErrorMessage('You have already rated this song.');
+          toast.error('You have already rated this song.', {
+            position: 'top-right',
+            autoClose: 3000,
+          })
         } else {
           console.error("Error creating rating:", error);
+  
+          // Display an error notification
+          toast.error('Failed to create song. Please try again.', {
+            position: 'top-right',
+            autoClose: 3000,
+          });
         }
       });
-
-  }
+  };
 
   const resetForm = () => {
     setSongName('');
@@ -43,6 +67,7 @@ function CreateRatingForm({ onCreateRating, session_username }) {
 
   return (
     <div>
+      <ToastContainer />
       <h1>Song Rater</h1>
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <form onSubmit={handleSubmit}>

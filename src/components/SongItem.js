@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function SongItem({ song, username, onDeleteSong, renderStars, onUpdateSong}) {
+
+function SongItem({ song, username, onDeleteSong, renderStars}) {
   const [isEditing, setIsEditing] = useState(false);
   const [newSongName, setNewSongName] = useState(song.song);
   const [newArtistName, setNewArtistName] = useState(song.artist);
@@ -29,24 +32,35 @@ function SongItem({ song, username, onDeleteSong, renderStars, onUpdateSong}) {
       if (response.data.success) {
         // Close the edit display
         setIsEditing(false);
-        
+  
         // Update the local state to reflect the new data
         setNewSongName(response.data.song);
         setNewArtistName(response.data.artist);
         setNewRating(response.data.rating);
-
   
-        // Notify the parent component of the update (You can pass the updated data or just a flag)
-        onUpdateSong(response.data);
   
+        // Display a success notification
+        toast.success('Song updated successfully', {
+          position: 'top-right',
+          autoClose: 3000,
+        });
       } else {
         // Handle errors or display an error message
+        toast.error('Failed to update song. Please try again.', {
+          position: 'top-right',
+          autoClose: 3000,
+        });
       }
     } catch (err) {
       console.error("Error updating song:", err);
       // Handle errors or display an error message
+      toast.error('An error occurred. Please try again later.', {
+        position: 'top-right',
+        autoClose: 3000,
+      });
     }
   };
+  
 
   return (
     <div className="song-item">

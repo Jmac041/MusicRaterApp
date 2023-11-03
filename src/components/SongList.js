@@ -2,6 +2,8 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import SongItem from './SongItem';
 
@@ -20,6 +22,10 @@ function SongList({ songs, username, onDeleteSong, onUpdateSong}) {
       .delete('http://localhost:8080/index.php/rating/delete', { data: { id: songId } })
       .then(response => {
         onDeleteSong(songId); // Call the onDeleteSong callback passed from App.js
+        toast.success('Song Deleted', {
+          position: 'top-right', // Adjust the position as needed
+          autoClose: 3000, // Notification will close after 3 seconds
+        })
       })
       .catch(error => {
         console.error("Error deleting song:", error);
