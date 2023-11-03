@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function SignUp({ onSignUp }) {
   const [username, setUsername] = useState('');
@@ -24,22 +26,33 @@ function SignUp({ onSignUp }) {
       });
 
       if (response.data.success) {
-        NotificationManager.success('Signup successful! Please log in', 'Success', 3000);
+        toast.success('Signup successful! Please log in', {      
+        position: 'top-right', // Adjust the position as needed
+        autoClose: 3000, // Notification will close after 3 seconds
+      });
         setUsername(''); // Clear the username input
         setPassword(''); // Clear the password input
         setConfirmPassword(''); // Clear the confirm password input
         setError(''); // Clear any previous error messages
         onSignUp(); // Notify the parent component (App) that signup is complete
       } else {
-        setError(response.data.error);
+        toast.error('Error creating account', {      
+          position: 'top-right', // Adjust the position as needed
+          autoClose: 3000, // Notification will close after 3 seconds
+        })
       }
     } catch (err) {
       console.error('There was an error creating an account:', err);
+      toast.error('Username already exists', {      
+        position: 'top-right', // Adjust the position as needed
+        autoClose: 3000, // Notification will close after 3 seconds
+      })
     }
   };
 
   return (
     <div>
+      <ToastContainer /> {/* Include the NotificationContainer */}     
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
         <div>
