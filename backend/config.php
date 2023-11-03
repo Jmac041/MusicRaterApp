@@ -1,9 +1,14 @@
 <?php
 
+header("Access-Control-Allow-Origin:*");
+header("Access-Control-Allow-Headers:*");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Credentials: true");
+
 $servername = "localhost"; 
 $username = "root"; 
 $password = ""; 
-$database = "music-db"; 
+$database = "music_db"; 
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $database);
